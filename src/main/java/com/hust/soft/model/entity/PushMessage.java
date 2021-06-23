@@ -1,7 +1,6 @@
-package com.hust.soft.model;
+package com.hust.soft.model.entity;
 
 import lombok.Data;
-import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 

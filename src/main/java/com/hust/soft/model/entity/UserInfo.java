@@ -1,4 +1,4 @@
-package com.hust.soft.model;
+package com.hust.soft.model.entity;
 
 import lombok.Data;
 

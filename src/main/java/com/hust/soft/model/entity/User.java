@@ -1,12 +1,13 @@
-package com.hust.soft.model;
+package com.hust.soft.model.entity;
 
 import lombok.Data;
-import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity(name = "t_user")
 @Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +15,9 @@ public class User {
 
     @Column(unique = true)
     private String email;
-
     private String password;
+
+    private boolean enabled;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)//User为维护端，删除User，级联删除UserInfo
     @JoinTable(name = "user_userinfo",
