@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Could not find user");
         }
         //暂时——将数据库里的明文密码加密
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         return new MyUserDetails(user);
     }
 }

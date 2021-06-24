@@ -15,7 +15,7 @@ public class TestController {
         return "Hello Spring Security!";
     }
 
-    @RequestMapping("/register/test")
+    @RequestMapping("/test/register")
     public User register(@RequestBody RegisterUser registerUser){
         User user = new User();
         user.setEmail(registerUser.getEmail());
