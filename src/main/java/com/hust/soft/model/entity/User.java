@@ -1,5 +1,6 @@
 package com.hust.soft.model.entity;
 
+import com.hust.soft.model.vo.RegisterUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,5 +25,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "userInfo_id"))
     private UserInfo userInfo;
+
+    public User(RegisterUser registerUser){
+        this.email = registerUser.getEmail();
+        this.password = registerUser.getPassword();
+    }
 
 }
