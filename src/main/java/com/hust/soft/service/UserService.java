@@ -29,4 +29,9 @@ public class UserService implements UserDetailsService {
         //user.setPassword(passwordEncoder.encode(user.getPassword()));
         return new MyUserDetails(user);
     }
+
+    public User getUserById(Long id){
+        User user = userRepository.findUsersById(id);
+        return user;
+    }
 }

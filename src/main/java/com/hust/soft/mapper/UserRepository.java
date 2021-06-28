@@ -4,8 +4,9 @@ import com.hust.soft.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUsersByEmail(String email);
 
+    User findUsersByEmail(String email);
+    User findUsersById(Long id);
 
 }
 
