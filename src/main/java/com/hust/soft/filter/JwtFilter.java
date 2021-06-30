@@ -29,13 +29,12 @@ public class JwtFilter extends GenericFilter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String jwtToken = req.getHeader("authorization");
-        if(jwtToken != null) {
+        if(jwtToken != null && !jwtToken.equals("Bearer")) {
             Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
             String username = claims.getSubject();
             List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(token);
-            filterChain.doFilter(req,servletResponse);
         };
         filterChain.doFilter(req, servletResponse);
     }

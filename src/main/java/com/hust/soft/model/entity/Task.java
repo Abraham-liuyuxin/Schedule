@@ -36,7 +36,7 @@ public class Task {
     //出参时间格式化
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     //入参时，请求报文只需要传入yyyymmddhhmmss字符串进来，则自动转换为Date类型数据
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date task_create;
 
 }

@@ -1,7 +1,6 @@
 package com.hust.soft.controller;
 
-import com.hust.soft.model.entity.User;
-import com.hust.soft.model.vo.RegisterUser;
+import com.hust.soft.model.vo.RegisterUserVO;
 import com.hust.soft.service.MailService;
 import com.hust.soft.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class RegisterController {
@@ -28,10 +25,10 @@ public class RegisterController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterUser registerUser){
+    public ResponseEntity<String> register(@RequestBody RegisterUserVO registerUserVO){
         //加密密码
-        registerUser.setPassword(passwordEncoder.encode(registerUser.getPassword()));
-        Boolean dataIntoDb = registerService.userIntoDb(registerUser);
+        registerUserVO.setPassword(passwordEncoder.encode(registerUserVO.getPassword()));
+        Boolean dataIntoDb = registerService.userIntoDb(registerUserVO);
         ResponseEntity<String> res;
         if(dataIntoDb){
             res =  new ResponseEntity<>("注册成功", HttpStatus.OK);
@@ -39,7 +36,7 @@ public class RegisterController {
             res =  new ResponseEntity<>("注册失败", HttpStatus.OK);
         }
         //发送验证邮件
-        mailService.simpleMail(registerUser.getEmail(), registerService.getVerification_code());
+        mailService.simpleMail(registerUserVO.getEmail(), registerService.getVerification_code());
         return res;
     }
 

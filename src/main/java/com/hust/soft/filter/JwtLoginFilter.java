@@ -2,7 +2,7 @@ package com.hust.soft.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.hust.soft.model.vo.LoginUser;
+import com.hust.soft.model.vo.LoginUserVO;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -36,7 +36,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
-        LoginUser user = new ObjectMapper().readValue(req.getInputStream(), LoginUser.class);
+        LoginUserVO user = new ObjectMapper().readValue(req.getInputStream(), LoginUserVO.class);
         return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
     }
 

@@ -5,18 +5,15 @@ import com.hust.soft.mapper.UserRepository;
 import com.hust.soft.model.dto.TaskAnalysisDTO;
 import com.hust.soft.model.entity.TaskAnalysis;
 import com.hust.soft.model.entity.User;
-import com.hust.soft.model.vo.RegisterUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.jws.soap.SOAPBinding;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskAnalysisService {
@@ -64,13 +61,14 @@ public class TaskAnalysisService {
         LocalDateTime then = now.minusDays(7);
         date = localDateTime2Date(then);
         List<TaskAnalysis> list = taskAnalysisRepository.findByUserAndAnalysisDayAfter(user, date);
-       //将TaskAnalysis转换为TaskAnalysisDTO
-        //学习java Stream新特性修改
-        List<TaskAnalysisDTO> analysisDTOList = new LinkedList<>();
-        for(TaskAnalysis taskAnalysis : list){
-            analysisDTOList.add(new TaskAnalysisDTO(taskAnalysis));
-        }
-        return analysisDTOList;
+
+        //将TaskAnalysis转换为TaskAnalysisDTO并排序
+        List<TaskAnalysisDTO> dtoList = list.stream()
+                .map(TaskAnalysisDTO::new)
+                .sorted(Comparator.comparing(TaskAnalysisDTO::getAnalysisDay))
+                .collect(Collectors.toList());
+
+        return dtoList;
     }
 
     /**

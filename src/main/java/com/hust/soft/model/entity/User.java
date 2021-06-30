@@ -1,6 +1,6 @@
 package com.hust.soft.model.entity;
 
-import com.hust.soft.model.vo.RegisterUser;
+import com.hust.soft.model.vo.RegisterUserVO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,9 +42,9 @@ public class User {
         return authorities;
     }
 
-    public User(RegisterUser registerUser){
-        this.email = registerUser.getEmail();
-        this.password = registerUser.getPassword();
+    public User(RegisterUserVO registerUserVO){
+        this.email = registerUserVO.getEmail();
+        this.password = registerUserVO.getPassword();
     }
 
 }
