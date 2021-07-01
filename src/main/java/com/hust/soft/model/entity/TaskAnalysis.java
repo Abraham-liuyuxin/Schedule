@@ -2,6 +2,7 @@ package com.hust.soft.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity(name = "t_analysis")
+@NoArgsConstructor
 public class TaskAnalysis {
 
     @Id
@@ -17,7 +19,7 @@ public class TaskAnalysis {
     @Column(name = "")
     private long analysisId;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     private User user;
 
     @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,18 +38,30 @@ public class TaskService {
         Task task = new Task();
 
         //将前端数据注入
-        task.setTask_subject(taskVO.getSubject());
-        task.setTask_theme(taskVO.getTheme());
-        task.setTask_ddl(taskVO.getDdl());
-        task.setTask_priority(taskVO.getPriority());
-        task.setTask_priority(taskVO.getPriority());
+        task.setTaskSubject(taskVO.getSubject());
+        task.setTaskTheme(taskVO.getTheme());
+        task.setTaskDdl(taskVO.getDdl());
+        task.setTaskPriority(taskVO.getPriority());
+        task.setTaskRemind(taskVO.getRemind());
 
         task.setUser(user);
-        task.setTask_isFinished(false);
-        task.setTask_create(new Date());
+        task.setTaskIsFinished(false);
+        task.setTaskCreate(new Date());
 
         taskRepository.saveAndFlush(task);
         return null;
+    }
+
+
+    public String finishTask(Long taskId, User user){
+        String s = "修改失败";
+        Optional<Task> task = taskRepository.findById(taskId);
+        if(task.isPresent() && user.getId()==task.get().getUser().getId()){
+            task.get().setTaskIsFinished(true);
+            taskRepository.saveAndFlush(task.get());
+            s = "修改成功";
+        }
+        return s;
     }
 
 }

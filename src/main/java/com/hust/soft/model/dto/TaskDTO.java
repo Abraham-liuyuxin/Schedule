@@ -22,16 +22,16 @@ public class TaskDTO {
     private Long taskId;
 
     public TaskDTO(Task task){
-        this.createAt = task.getTask_create();
-        this.ddl = task.getTask_ddl();
-        this.isFinished = task.isTask_isFinished();
-        this.priority = task.getTask_priority();
-        this.remind = task.getTask_remind();
-        this.subject = task.getTask_subject();
-        this.theme = task.getTask_theme();
+        this.createAt = task.getTaskCreate();
+        this.ddl = task.getTaskDdl();
+        this.isFinished = task.isTaskIsFinished();
+        this.priority = task.getTaskPriority();
+        this.remind = task.getTaskRemind();
+        this.subject = task.getTaskSubject();
+        this.theme = task.getTaskTheme();
 
         this.userId = task.getUser().getId();
-        this.taskId = task.getTask_id();
+        this.taskId = task.getTaskId();
     }
 
     public TaskDTO(SaveTaskVO taskVO){

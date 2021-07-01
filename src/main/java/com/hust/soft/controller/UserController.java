@@ -7,6 +7,7 @@ import com.hust.soft.service.TaskService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -36,4 +37,11 @@ public class UserController {
         return principal + "：保存任务成功";
     }
 
+    @RequestMapping("/finish-task")
+    public String finishTask(@RequestParam("taskId") Long taskId){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = taskService.getUser(principal);
+        String res = taskService.finishTask(taskId, user);
+        return res;
+    }
 }
