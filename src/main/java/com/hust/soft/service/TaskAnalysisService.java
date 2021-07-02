@@ -27,48 +27,13 @@ public class TaskAnalysisService {
     @Autowired
     UserRepository userRepository;
 
-    Random random = new Random(624);
-    public void saveTest(TaskAnalysis taskAnalysis, User user){
-        int analysis_task_num;
-        int analysis_finished_num;
-        float analysis_finish_rate;
-
-        analysis_finished_num = random.nextInt(100);
-        analysis_task_num = random.nextInt(100)+analysis_finished_num;
-        analysis_finish_rate = (float) analysis_finished_num/analysis_task_num;
-        Date date = new Date();
-
-        taskAnalysis.setAnalysisDay(date);
-        taskAnalysis.setAnalysisTaskNum(analysis_task_num);
-        taskAnalysis.setAnalysisFinishedNum(analysis_finished_num);
-        taskAnalysis.setAnalysisFinishRate(analysis_finish_rate);
-        taskAnalysis.setUser(user);
-
-        taskAnalysisRepository.saveAndFlush(taskAnalysis);
-    }
-    public String saveTaskAnalysis(TaskAnalysis taskAnalysis, User user, Date date){
-        int tasks = taskRepository.findAllByUser(user).size();
-
-
-        taskAnalysis.setUser(user);
-        taskAnalysisRepository.saveAndFlush(taskAnalysis);
-        return null;
-    }
-
-
-
-
-
-    public User getUser(String userEmail){
-        User user = userRepository.findUsersByEmail(userEmail);
-        return user;
-    }
+    final int ANALYSIS_DAY = 12;
 
     public List<TaskAnalysisDTO> getTaskAnalysisLastSevenDays(User user, Date date){
 
         LocalDateTime now = LocalDateUtil.date2LocalDateTime(date);
-        //获取过去7天的分析
-        LocalDateTime then = now.minusDays(7);
+        //获取过去ANALYSIS_DAY天的分析
+        LocalDateTime then = now.minusDays(ANALYSIS_DAY);
         date = LocalDateUtil.localDateTime2Date(then);
         List<TaskAnalysis> list = taskAnalysisRepository.findByUserAndAnalysisDayAfter(user, date);
 
@@ -81,5 +46,11 @@ public class TaskAnalysisService {
         return dtoList;
     }
 
+    public int getCountFinish(User user){
+        return taskAnalysisRepository.findAllByUser(user).stream().mapToInt(TaskAnalysis::getAnalysisFinishedNum).sum();
+    }
+    public int getCountTask(User user){
+        return taskAnalysisRepository.findAllByUser(user).stream().mapToInt(TaskAnalysis::getAnalysisTaskNum).sum();
+    }
 
 }

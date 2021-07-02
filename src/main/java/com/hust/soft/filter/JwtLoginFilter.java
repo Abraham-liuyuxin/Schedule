@@ -49,7 +49,6 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         // 根据给定的字节数组使用AES加密算法构造一个密钥
         SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
 
-
         Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
         StringBuffer as = new StringBuffer();
         for (GrantedAuthority authority : authorities){

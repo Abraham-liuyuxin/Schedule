@@ -42,14 +42,14 @@ public class RegisterService {
             this.verification_code = randomCode;
             User user = new User(registerUserVO);
             user.setRoles(authorization("user"));
-            user.setVerification_code(randomCode);
+            user.setVerificationCode(randomCode);
             userRepository.saveAndFlush(user);
             return true;
         }
         return false;
     }
     public boolean verify(String verification_code, String email){
-        String toVerification_code = userRepository.findUsersByEmail(email).getVerification_code();
+        String toVerification_code = userRepository.findUsersByEmail(email).getVerificationCode();
         return toVerification_code.equals(verification_code);
     }
 

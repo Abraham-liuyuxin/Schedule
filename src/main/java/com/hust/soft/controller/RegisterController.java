@@ -43,7 +43,6 @@ public class RegisterController {
 
     @RequestMapping("/register/verification")
     public String activate(@RequestParam String verification_code, @RequestParam String email){
-        System.out.println("开始验证");
         String s = "激活失败";
         Boolean verification = registerService.verify(verification_code, email);
         if (verification){

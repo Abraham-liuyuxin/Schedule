@@ -13,5 +13,5 @@ import java.util.List;
 
 public interface TaskAnalysisRepository extends JpaRepository<TaskAnalysis, Long> {
     List<TaskAnalysis> findByUserAndAnalysisDayAfter(User user, Date date);
-
+    List<TaskAnalysis> findAllByUser(User user);
 }

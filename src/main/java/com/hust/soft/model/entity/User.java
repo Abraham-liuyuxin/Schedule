@@ -22,7 +22,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    private String verification_code;
+    private String verificationCode;
     private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

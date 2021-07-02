@@ -24,7 +24,7 @@ public class Schedule {
     UserRepository userRepository;
 
     //每天0时0分1秒对前天的用户数据进行分析
-    @Scheduled(cron = "1 0 0 * ? ?")
+    @Scheduled(cron = "1 0 0 * * ?")
     //@Scheduled(initialDelay = 1000, fixedRate = 10000)
     public String saveToTaskAnalysis(){
         List<User> userList = userRepository.findAll();
@@ -39,7 +39,6 @@ public class Schedule {
     private TaskAnalysis generateTaskAnalysis(User user){
         LocalDate date = LocalDate.now().minusDays(1);
         Date yesterday = LocalDateUtil.localDate2Date(date);
-
         int tasks = taskRepository.findAllByUserAndTaskCreate(user, yesterday).size();
         int finishedTasks = taskRepository.findAllByUserAndTaskIsFinishedAndTaskCreate(user, true, yesterday).size();
         float rate = (float) finishedTasks/tasks;

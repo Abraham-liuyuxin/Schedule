@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -26,19 +28,26 @@ public class TaskAnalysisController {
     UserService userService;
 
 
-    public String saveTaskAnalysisTest(){
-        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserByEmail(principal);
-        taskAnalysisService.saveTest(new TaskAnalysis(), user);
-        return "保存任务分析成功";
-    }
-
     @RequestMapping("/task-analysis")
-    public List<TaskAnalysisDTO> getTaskAnalysis(){
+    public Map<String, Object> getTaskAnalysis(){
+        int countTask, countFinish;
+        Map<String, Object> res = new HashMap<>();
+
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByEmail(principal);
+        Long userId = user.getId();
+
+        countTask = taskAnalysisService.getCountTask(user);
+        countFinish = taskAnalysisService.getCountFinish(user);
+
         Date date = new Date();
-        List<TaskAnalysisDTO> res = taskAnalysisService.getTaskAnalysisLastSevenDays(user, date);
+        List<TaskAnalysisDTO> analysis = taskAnalysisService.getTaskAnalysisLastSevenDays(user, date);
+
+        res.put("userId", userId);
+        res.put("countTask", countTask);
+        res.put("countFinish", countFinish);
+        res.put("analysis", analysis);
+
         return res;
     }
 }
