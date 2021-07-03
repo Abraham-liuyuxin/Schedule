@@ -36,7 +36,7 @@ public class RegisterController {
             res =  new ResponseEntity<>("注册失败", HttpStatus.OK);
         }
         //发送验证邮件
-        mailService.simpleMail(registerUserVO.getEmail(), registerService.getVerification_code());
+        //mailService.simpleMail(registerUserVO.getEmail(), registerService.getVerification_code());
         return res;
     }
 

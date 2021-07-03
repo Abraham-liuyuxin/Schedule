@@ -22,11 +22,16 @@ public class UserInfoService {
     }
 
     public String saveUserWithInfo(User user, UserInfo userInfo){
-        Long oldUserInfoId = user.getUserInfo().getUserInfoId();
-        user.setUserInfo(userInfo);
-        userRepository.saveAndFlush(user);
-        userInfoRepository.deleteById(oldUserInfoId);
-        userInfoRepository.flush();
+        if(user.getUserInfo()!=null){
+            Long oldUserInfoId = user.getUserInfo().getUserInfoId();
+            user.setUserInfo(userInfo);
+            userRepository.saveAndFlush(user);
+            userInfoRepository.deleteById(oldUserInfoId);
+            userInfoRepository.flush();
+        }else {
+            user.setUserInfo(userInfo);
+            userRepository.saveAndFlush(user);
+        }
         return "保存成功";
     }
 
