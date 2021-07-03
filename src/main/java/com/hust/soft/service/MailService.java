@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MailService {
-    String SERVER_PREFIX = "http://locahost:4000/register/verification?verification_code=";
+    String SERVER_PREFIX = "http://localhost:4000/register/verification?verification_code=";
 
     @Autowired
     private JavaMailSender mailSender;

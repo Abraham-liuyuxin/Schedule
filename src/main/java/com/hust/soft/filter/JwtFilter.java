@@ -29,7 +29,8 @@ public class JwtFilter extends GenericFilter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String jwtToken = req.getHeader("authorization");
-        if(jwtToken != null && !jwtToken.equals("Bearer")) {
+
+        if(jwtToken != null && !jwtToken.contains("Bearer")) {
             Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
             String username = claims.getSubject();
             List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
