@@ -27,8 +27,15 @@ public class TaskService {
         return user;
     }
 
+
     public List<TaskDTO> getTaskList(User user){
         List<Task> list = taskRepository.findAllByUser(user);
+        List<TaskDTO> res = list.stream().map(TaskDTO::new).collect(Collectors.toList());
+        return  res;
+    }
+
+    public List<TaskDTO> getUnfinishedTaskList(User user){
+        List<Task> list = taskRepository.findAllByUserAndTaskIsFinished(user, false);
         List<TaskDTO> res = list.stream().map(TaskDTO::new).collect(Collectors.toList());
         return  res;
     }

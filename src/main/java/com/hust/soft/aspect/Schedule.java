@@ -23,7 +23,7 @@ public class Schedule {
     @Autowired
     UserRepository userRepository;
 
-    //每天0时0分1秒对前天的用户数据进行分析
+    //每天0时0分1秒对昨天的用户数据进行分析
     @Scheduled(cron = "1 0 0 * * ?")
     //@Scheduled(initialDelay = 1000, fixedRate = 10000)
     public String saveToTaskAnalysis(){
