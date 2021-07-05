@@ -68,6 +68,7 @@ public class SseEmitterController {
         map.put("theme", taskDTO.getTheme());
         map.put("ddl", taskDTO.getDdl());
         map.put("priority", taskDTO.getPriority());
+
         try {
             emitter.send(map , MediaType.APPLICATION_JSON);
         }catch (IOException e){
