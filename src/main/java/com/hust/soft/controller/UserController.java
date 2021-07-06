@@ -5,10 +5,7 @@ import com.hust.soft.model.entity.User;
 import com.hust.soft.model.vo.SaveTaskVO;
 import com.hust.soft.service.TaskService;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.Principal;
@@ -42,6 +39,22 @@ public class UserController {
         String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = taskService.getUser(principal);
         String res = taskService.finishTask(taskId, user);
+        return res;
+    }
+
+    @RequestMapping("/update-task")
+    public String updateTask(@RequestBody TaskDTO taskDTO){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = taskService.getUser(principal);
+        String res = taskService.updateTask(taskDTO, user);
+        return res;
+    }
+
+    @RequestMapping("/delete-task")
+    public String deleteTask(@RequestParam("taskId") Long taskId){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = taskService.getUser(principal);
+        String res = taskService.deleteTask(taskId, user);
         return res;
     }
 }

@@ -69,14 +69,20 @@ public class SseEmitterController {
         map.put("ddl", taskDTO.getDdl());
         map.put("priority", taskDTO.getPriority());
 
-        try {
-            emitter.send(map , MediaType.APPLICATION_JSON);
-        }catch (IOException e){
-            e.printStackTrace();
-            emitter.completeWithError(e);
-        }
-        emitter.complete();
+        Long finalSleepTime = sleepTime;
+        service.execute(()->{
+            for (;;){
+                try {
+                    emitter.send(map , MediaType.APPLICATION_JSON);
+                    Thread.sleep(finalSleepTime);
+                }catch (IOException | InterruptedException e){
+                    e.printStackTrace();
+                    emitter.completeWithError(e);
+                }
+            }
 
+        });
+        emitter.complete();
         return emitter;
     }
 
@@ -84,7 +90,7 @@ public class SseEmitterController {
     public SseEmitter sendMessage(@RequestParam("taskId") Long taskId){
         final SseEmitter emitter = new SseEmitter();
         ExecutorService service = Executors.newSingleThreadExecutor();
-        List<TaskDTO> taskDTOS = getUnfinishedTasks();
+        List<TaskDTO> taskDTOS = getUnfinishedTasksFake();
         service.execute(()->{
             for (TaskDTO taskDTO : taskDTOS){
                 try {
@@ -99,6 +105,7 @@ public class SseEmitterController {
                     map.put("ddl", taskDTO.getDdl());
                     map.put("priority", taskDTO.getPriority());
                     emitter.send(map , MediaType.APPLICATION_JSON);
+                    Thread.sleep(1000);
                 }catch (Exception e){
                     e.printStackTrace();
                     emitter.completeWithError(e);
@@ -109,6 +116,13 @@ public class SseEmitterController {
         });
 
         return emitter;
+    }
+
+    public List<TaskDTO> getUnfinishedTasksFake(){
+        String principal = "zhacaiji@163.com";
+        User user = taskService.getUser(principal);
+        List<TaskDTO> taskDTOS = taskService.getUnfinishedTaskList(user);
+        return taskDTOS;
     }
 
     public List<TaskDTO> getUnfinishedTasks(){

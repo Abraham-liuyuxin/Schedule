@@ -21,7 +21,7 @@ public class Task {
     private String taskTheme;
     private String taskSubject;
 
-    @Temporal(TemporalType.DATE)//生成yyyy-MM-dd类型的日期
+    @Temporal(TemporalType.TIMESTAMP)//生成yyyy-MM-dd类型的日期
     //出参时间格式化
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     //入参时，请求报文只需要传入yyyymmddhhmmss字符串进来，则自动转换为Date类型数据
