@@ -28,7 +28,10 @@ public class RegisterController {
     public ResponseEntity<String> register(@RequestBody RegisterUserVO registerUserVO){
         //加密密码
         registerUserVO.setPassword(passwordEncoder.encode(registerUserVO.getPassword()));
+
         Boolean dataIntoDb = registerService.userIntoDb(registerUserVO);
+
+
         ResponseEntity<String> res;
         if(dataIntoDb){
             res =  new ResponseEntity<>("注册成功", HttpStatus.OK);

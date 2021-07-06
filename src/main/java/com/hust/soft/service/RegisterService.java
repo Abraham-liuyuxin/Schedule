@@ -3,6 +3,7 @@ package com.hust.soft.service;
 import com.hust.soft.mapper.UserRepository;
 import com.hust.soft.model.entity.Role;
 import com.hust.soft.model.entity.User;
+import com.hust.soft.model.entity.UserInfo;
 import com.hust.soft.model.vo.RegisterUserVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,11 +44,14 @@ public class RegisterService {
             User user = new User(registerUserVO);
             user.setRoles(authorization("user"));
             user.setVerificationCode(randomCode);
+            user.setUserInfo(new UserInfo());
             userRepository.saveAndFlush(user);
             return true;
         }
         return false;
     }
+
+
     public boolean verify(String verification_code, String email){
         String toVerification_code = userRepository.findUsersByEmail(email).getVerificationCode();
         return toVerification_code.equals(verification_code);
