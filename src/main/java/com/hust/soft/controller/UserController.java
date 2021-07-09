@@ -1,6 +1,7 @@
 package com.hust.soft.controller;
 
 import com.hust.soft.model.dto.TaskDTO;
+import com.hust.soft.model.entity.Task;
 import com.hust.soft.model.entity.User;
 import com.hust.soft.model.vo.SaveTaskVO;
 import com.hust.soft.service.TaskService;
@@ -56,6 +57,14 @@ public class UserController {
         User user = taskService.getUser(principal);
         String res = taskService.deleteTask(taskId, user);
         return res;
+    }
+
+    @RequestMapping("/task")
+    public TaskDTO getTaskDTO(@RequestParam("taskId") Long taskId){
+        String principal = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = taskService.getUser(principal);
+        TaskDTO taskDTO = taskService.getTaskDTO(taskId);
+        return taskDTO;
     }
 
 
