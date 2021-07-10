@@ -10,12 +10,13 @@ public class PushMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long push_id;
+    private long pushId;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private User user;
 
-    private String push_theme;
-    private String push_subject;
-    private boolean push_isAccepted;
+    private String pushTheme;
+    private String pushSubject;
+    private boolean pushIsAccepted;
+
 }
